@@ -122,6 +122,6 @@ module Locode
     return [] unless city && city.is_a?(String)
 
     locations = find_by_name(city)
-    locations.select { |location| location.country_code == country_code }.take(1)
+    locations.select { |location| location.country_code == country_code }
   end
 end
