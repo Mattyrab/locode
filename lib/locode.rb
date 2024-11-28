@@ -117,11 +117,22 @@ module Locode
     ALL_LOCATIONS.select { |location| location.country_code == country_code && location.function_classifier.include?(function) }.take(limit)
   end
 
+  # Public: Find locations for a specific country with a specific city name
+  #
+  # country_code - ISO 3166 alpha-2 Country Code String to filter locations by country
+  # city - The string containing the name of city to be searched for
+  #
+  # Examples
+  #
+  #   Locode.find_by_country_and_city('SE', 'Göteborg')
+  #   #=> [<Locode::Location: 'SE GOT'>, ..]
+  #
+  # Returns an Array of Locations that satisfy the above conditions
   def self.find_by_country_and_city(country_code, city)
     return [] unless country_code.to_s =~ /^[A-Z]{2}$/
     return [] unless city && city.is_a?(String)
 
     locations = find_by_name(city)
-    locations.select { |location| location.country_code == country_code }
+    locations.select { |location| (location.country_code == country_code) && (location.full_name == city) }
   end
 end
