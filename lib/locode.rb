@@ -128,11 +128,12 @@ module Locode
   #   #=> [<Locode::Location: 'SE GOT'>, ..]
   #
   # Returns an Array of Locations that satisfy the above conditions
-  def self.find_by_country_and_city(country_code, city)
+  def self.find_specific_city(country_code, state_code, city)
     return [] unless country_code.to_s =~ /^[A-Z]{2}$/
+    return [] unless state_code.to_s =~ /^[A-Z]{2}$/
     return [] unless city && city.is_a?(String)
 
     locations = find_by_name(city)
-    locations.select { |location| (location.country_code == country_code) && (location.full_name == city) }
+    locations.select { |location| (location.country_code == country_code) && (location.full_name == city) && (location.subdivision == state_code) }
   end
 end
